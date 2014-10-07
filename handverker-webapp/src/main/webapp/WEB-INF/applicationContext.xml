@@ -3,6 +3,22 @@
         xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
+    <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+
+        <property name="messageConverters">
+
+            <list>
+
+                <ref bean="jacksonMessageConverter"/>
+
+            </list>
+
+        </property>
+
+    </bean>
+
 
     <!-- the usual <context:annotation-config/> can't be used because the
 CommonAnnotationBeanPostProcessor causes a security exception in GAE when it

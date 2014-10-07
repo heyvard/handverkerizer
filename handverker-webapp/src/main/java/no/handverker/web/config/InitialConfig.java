@@ -1,33 +1,43 @@
 package no.handverker.web.config;
 
 import no.handverker.database.BrukereDatabase;
-import no.handverker.web.controller.SimpleController;
+import no.handverker.web.controller.HandverkerController;
+import no.handverker.web.controller.ViewController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.context.ServletConfigAware;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletConfig;
+import java.util.List;
 import java.util.logging.Logger;
-
-/**
- * Created by Håvard on 07.10.2014.
- */
 
 
 @Configuration
-public class InitialConfig implements ServletConfigAware {
+public class InitialConfig extends WebMvcConfigurerAdapter implements ServletConfigAware {
     private ServletConfig servletConfig;
 
 
     @PostConstruct
     public void initialize() {
         Logger logger = Logger.getLogger(InitialConfig.class.getName());
-        logger.warning("halla");
+        logger.info("halla");
     }
 
-
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+  //      converters.add(mappingJackson2HttpMessageConverter());
+    }
+/*
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+        return new MappingJackson2HttpMessageConverter();
+    }
+*/
     @Bean
     public BrukereDatabase brukereDatabase() {
         return new BrukereDatabase();
@@ -35,8 +45,13 @@ public class InitialConfig implements ServletConfigAware {
 
     @Bean
     @Autowired
-    public SimpleController simpleController(BrukereDatabase brukereDatabase) {
-        return new SimpleController(brukereDatabase);
+    public HandverkerController simpleController(BrukereDatabase brukereDatabase) {
+        return new HandverkerController(brukereDatabase);
+    }
+
+    @Bean
+    public ViewController viewController() {
+        return new ViewController();
     }
 
 
