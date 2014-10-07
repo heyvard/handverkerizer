@@ -1,0 +1,17 @@
+<beans  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+
+    <!-- the usual <context:annotation-config/> can't be used because the
+CommonAnnotationBeanPostProcessor causes a security exception in GAE when it
+tries to load javax.annotation.Resource -->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <bean class="org.springframework.context.annotation.ConfigurationClassPostProcessor"/>
+    <bean class="org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor">
+        <property name="initAnnotationType" value="javax.annotation.PostConstruct"/>
+        <property name="destroyAnnotationType" value="javax.annotation.PreDestroy"/>
+    </bean>
+    <bean class="no.handverker.web.config.InitialConfig"/>
+</beans>
