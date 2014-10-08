@@ -9,10 +9,9 @@ public class BrukereDatabase {
 
     public BrukereDatabase() {
         Logger logger = Logger.getLogger(BrukereDatabase.class.getName());
-        logger.warning("halla");
     }
 
-    public String hentBruker(String epost){
+    public String hentBruker(String epost) {
         return "yolo";
     }
 }

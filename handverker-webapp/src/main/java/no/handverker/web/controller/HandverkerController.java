@@ -14,7 +14,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @Controller
-
 public class HandverkerController {
 
     private final BrukereDatabase brukereDatabase;
@@ -28,7 +27,7 @@ public class HandverkerController {
 
     @RequestMapping(value = "/api/hentYrke", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Handverker plaintext() {
+    public Handverker handverker() {
         LOGGER.info("henter yrke");
         return new Handverker("blikkenslager", "tim");
     }
