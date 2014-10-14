@@ -1,10 +1,24 @@
-<div data-role="page" id="leggTil"  data-theme="b">
+<div data-role="page" id="leggTil" data-theme="b">
     {{> header}}
 
 
     <div data-role="main" class="ui-content">
-        <p>Dette er legg til siden</p>
+        <h2>Legg til nytt ord</h2>
     </div>
+
+    <label class="select">Velg type
+        <select id="velgType">
+            <option value="yrke">Yrke</option>
+            <option value="sted">Sted</option>
+            <option value="fornavn">Fornavn</option>
+            <option value="etternavn">Etternavn</option>
+        </select>
+    </label>
+    <label>Skriv inn ord
+        <input type="text" id="leggTilInput" value="">
+    </label>
+    <br />
+    <a id="leggTilKnapp" data-role="button" data-icon="plus" data-iconpos="top">Legg til</a>
     {{> footer}}
 
 </div> 

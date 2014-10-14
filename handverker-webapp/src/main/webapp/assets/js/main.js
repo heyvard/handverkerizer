@@ -1,5 +1,12 @@
 //$('#hjem a[href=#hjem]')
 
+
+function styleNavKnapp(side) {
+    $('#' + side + ' a[href=#' + side + ']').addClass('ui-btn-active ui-state-persist');
+
+}
+
+
 $(document).ready(function () {
     var $wrapper = $('body');
 
@@ -7,14 +14,16 @@ $(document).ready(function () {
     $wrapper.empty().html(wrapperTmpl());
 
 
-    $wrapper.on("pagechange", function (event, info) {
-        var side = info.toPage[0].id;
+    $('div[data-role="navbar"] a').click(function (event) {
 
-        $('#' + side + ' a[href=#' + side + ']').addClass('ui-btn-active ui-state-persist');
+        var side = event.currentTarget.href.split('#')[1];
+        styleNavKnapp(side)
+
     });
+
     window.location.hash = "hjem";
-
+    styleNavKnapp('hjem')
     $wrapper.trigger('create');
-
+    initialiserLeggTil();
     initialiserPriss();
 });

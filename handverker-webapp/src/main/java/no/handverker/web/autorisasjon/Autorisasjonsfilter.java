@@ -41,7 +41,7 @@ public class Autorisasjonsfilter extends OncePerRequestFilter {
 
             HttpSession session = req.getSession();
             if (erAutorisert(session)) {
-                LOGGER.info("er allerede autorisert");
+                LOGGER.info("er allerede autorisert på sesjonen");
                 chain.doFilter(req, res);
                 return;
             } else {
@@ -50,14 +50,14 @@ public class Autorisasjonsfilter extends OncePerRequestFilter {
                 Bruker bruker = brukereDatabase.hentBruker(user.getUserId());
                 if (bruker == null) {
 
-                    LOGGER.info("Legger til ny bruker: " + user.getEmail());
-
 
                     bruker = new Bruker();
                     bruker.setBrukerID(user.getUserId());
                     bruker.setHarTilgang(true);
                     bruker.setEpost(user.getEmail());
+                    brukereDatabase.leggTilBruker(bruker);
                     setAutorisert(session);
+                    LOGGER.info(bruker.getEpost() + " lagt til");
 
                     chain.doFilter(req, res);
                     return;

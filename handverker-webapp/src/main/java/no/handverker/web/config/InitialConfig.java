@@ -1,8 +1,9 @@
 package no.handverker.web.config;
 
-import no.handverker.database.BrukereDatabase;
+import no.handverker.database.*;
 import no.handverker.web.autorisasjon.Autorisasjonsfilter;
 import no.handverker.web.autorisasjon.Googlebruker;
+import no.handverker.web.controller.HandverkerController;
 import no.handverker.web.controller.PrissController;
 import no.handverker.web.controller.ViewController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,40 @@ public class InitialConfig extends WebMvcConfigurerAdapter implements ServletCon
         return new PrissController();
     }
 
+    @Bean
+    @Autowired
+    public HandverkerController handverkerController(YrkeDatabase yrkeDatabase,
+                                                     EtternavnDatabase etternavnDatabase,
+                                                     StedDatabase stedDatabase,
+                                                     FornavnDatabase brukereDatabase,
+                                                     Googlebruker googlebruker) {
+        return new HandverkerController(yrkeDatabase, etternavnDatabase, stedDatabase, brukereDatabase, googlebruker);
+    }
 
     @Bean
     public BrukereDatabase brukereDatabase() {
         return new BrukereDatabase();
     }
 
+    @Bean
+    public YrkeDatabase yrkeDatabase() {
+        return new YrkeDatabase();
+    }
+
+    @Bean
+    public EtternavnDatabase etternavnDatabase() {
+        return new EtternavnDatabase();
+    }
+
+    @Bean
+    public StedDatabase stedDatabase() {
+        return new StedDatabase();
+    }
+
+    @Bean
+    public FornavnDatabase fornavnDatabase() {
+        return new FornavnDatabase();
+    }
 
     @Bean
     public Googlebruker googlebruker() {
