@@ -33,10 +33,20 @@
         </listener-class>
     </listener>
 
+    <filter>
+        <filter-name>autorisasjonsfilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>autorisasjonsfilter</param-value>
+        </init-param>
+    </filter>
 
-    <welcome-file-list>
-        <welcome-file>guestbook.jsp</welcome-file>
-    </welcome-file-list>
+
+    <filter-mapping>
+        <filter-name>autorisasjonsfilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
     <security-constraint>
         <web-resource-collection>
@@ -44,7 +54,7 @@
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>admin</role-name> <!-- TODO kun for admin nå-->
+            <role-name>*</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>

@@ -1,17 +1,21 @@
 package no.handverker.database;
 
+import no.handverker.domene.Bruker;
+
 import java.util.logging.Logger;
 
-/**
- * Created by Håvard on 07.10.2014.
- */
-public class BrukereDatabase {
 
-    public BrukereDatabase() {
-        Logger logger = Logger.getLogger(BrukereDatabase.class.getName());
+public class BrukereDatabase {
+    private static final Logger LOGGER = Logger.getLogger(BrukereDatabase.class.getName());
+
+
+    public Bruker hentBruker(String brukerID) {
+        LOGGER.info("Henter bruker " +  brukerID);
+        return null;
     }
 
-    public String hentBruker(String epost) {
-        return "yolo";
+    public void leggTilBruker(Bruker bruker){
+        LOGGER.info("Legger til bruker " +  bruker.getEpost());
+
     }
 }

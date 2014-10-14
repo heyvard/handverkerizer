@@ -29,6 +29,6 @@ public class HandverkerController {
     @ResponseBody
     public Handverker handverker() {
         LOGGER.info("henter yrke");
-        return new Handverker("blikkenslager", "tim");
+        return null;// new Handverker("blikkenslager", "tim");
     }
 }

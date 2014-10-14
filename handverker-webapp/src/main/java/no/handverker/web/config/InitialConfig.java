@@ -1,21 +1,17 @@
 package no.handverker.web.config;
 
 import no.handverker.database.BrukereDatabase;
-import no.handverker.web.controller.HandverkerController;
+import no.handverker.web.autorisasjon.Autorisasjonsfilter;
+import no.handverker.web.autorisasjon.Googlebruker;
 import no.handverker.web.controller.PrissController;
 import no.handverker.web.controller.ViewController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.context.ServletConfigAware;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletConfig;
-import java.util.List;
-import java.util.logging.Logger;
 
 
 @Configuration
@@ -23,14 +19,8 @@ public class InitialConfig extends WebMvcConfigurerAdapter implements ServletCon
     private ServletConfig servletConfig;
 
 
-    @PostConstruct
-    public void initialize() {
-        Logger logger = Logger.getLogger(InitialConfig.class.getName());
-        logger.info("halla");
-    }
-
     @Bean
-    public PrissController prissController(){
+    public PrissController prissController() {
         return new PrissController();
     }
 
@@ -40,10 +30,19 @@ public class InitialConfig extends WebMvcConfigurerAdapter implements ServletCon
         return new BrukereDatabase();
     }
 
+
     @Bean
+    public Googlebruker googlebruker() {
+        return new Googlebruker();
+    }
+
+
+    @Bean(name = "autorisasjonsfilter")
     @Autowired
-    public HandverkerController simpleController(BrukereDatabase brukereDatabase) {
-        return new HandverkerController(brukereDatabase);
+    public Autorisasjonsfilter autorisasjonsfilter(Googlebruker googlebruker,
+                                                   BrukereDatabase brukereDatabase) {
+
+        return new Autorisasjonsfilter(googlebruker, brukereDatabase);
     }
 
     @Bean
