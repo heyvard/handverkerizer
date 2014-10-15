@@ -2,36 +2,40 @@ package no.handverker.web.autorisasjon;
 
 
 import com.google.appengine.api.users.User;
+import no.handverker.appengine.Googlebruker;
 import no.handverker.database.BrukereDatabase;
 import no.handverker.domene.Bruker;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class Autorisasjonsfilter extends OncePerRequestFilter {
+public class Autorisasjonsfilter implements Filter {
 
     private static Logger LOGGER = Logger.getLogger(Autorisasjonsfilter.class.getName());
 
-    private final Googlebruker googlebruker;
-    private final BrukereDatabase brukereDatabase;
+    private Googlebruker googlebruker = new Googlebruker();
+    private BrukereDatabase brukereDatabase = new BrukereDatabase();
 
-    @Autowired
-    public Autorisasjonsfilter(Googlebruker googlebruker, BrukereDatabase brukereDatabase) {
-        this.googlebruker = googlebruker;
-        this.brukereDatabase = brukereDatabase;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
     @Override
-    public void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
+    public void destroy() {
 
+    }
+
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) req;
 
         if (!googlebruker.erBrukerLoggetInn()) {
             //Vi er i veien for google sitt filter
@@ -39,9 +43,8 @@ public class Autorisasjonsfilter extends OncePerRequestFilter {
             return;
         } else {
 
-            HttpSession session = req.getSession();
+            HttpSession session = httpServletRequest.getSession();
             if (erAutorisert(session)) {
-                LOGGER.info("er allerede autorisert på sesjonen");
                 chain.doFilter(req, res);
                 return;
             } else {
@@ -81,9 +84,10 @@ public class Autorisasjonsfilter extends OncePerRequestFilter {
     }
 
 
-    private void sendTilFeilside(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        res.setStatus(403);
-        res.sendRedirect("/forbidden.html");
+    private void sendTilFeilside(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) res;
+        httpServletResponse.setStatus(403);
+        httpServletResponse.sendRedirect("/forbidden.html");
         chain.doFilter(req, res);
     }
 
@@ -104,5 +108,6 @@ public class Autorisasjonsfilter extends OncePerRequestFilter {
     private void setAutorisert(HttpSession httpSession) {
         httpSession.setAttribute("autorisert", true);
     }
+
 
 }

@@ -11,7 +11,9 @@ function initialiserLeggTil() {
             $.blockUI();
 
             $.ajax('api/handverker/' + type, {
-                data: JSON.stringify(ord),
+                data: JSON.stringify({
+                    verdi: ord
+                }),
                 contentType: 'application/json',
                 type: 'POST',
                 success: function () {

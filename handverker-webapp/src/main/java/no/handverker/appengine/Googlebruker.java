@@ -1,4 +1,4 @@
-package no.handverker.web.autorisasjon;
+package no.handverker.appengine;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserServiceFactory;

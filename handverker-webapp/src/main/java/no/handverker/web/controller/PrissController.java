@@ -1,23 +1,21 @@
 package no.handverker.web.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import no.handverker.domene.StringWrapper;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import java.util.Random;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-
-@Controller
+@Path("priss")
 public class PrissController {
 
 
-    @RequestMapping(value = "/api/priss", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String plaintext() {
-        return PrissController.generate();
+    @GET
+    @Produces("application/json")
+    public StringWrapper plaintext() {
+        return new StringWrapper(PrissController.generate());
     }
 
     private static String generate() {

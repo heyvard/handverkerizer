@@ -9,7 +9,7 @@ function initialiserPriss() {
             $.blockUI();
             $.get("api/priss", function (data) {
 
-                $("#prissTekst").html(data);
+                $("#prissTekst").html(data.verdi);
                 $.unblockUI();
             });
         }
