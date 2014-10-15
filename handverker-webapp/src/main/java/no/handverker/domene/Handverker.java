@@ -1,11 +1,10 @@
 package no.handverker.domene;
 
+import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Håvard on 08.10.2014.
- */
-public class Handverker {
+
+public class Handverker implements Serializable{
     private List<String> yrke;
     private List<String> fornavn;
     private List<String> etternavn;

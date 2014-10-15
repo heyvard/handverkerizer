@@ -1,5 +1,8 @@
 package no.handverker.web.controller;
 
+import com.google.appengine.api.memcache.ErrorHandlers;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import no.handverker.appengine.Googlebruker;
 import no.handverker.database.EtternavnDatabase;
 import no.handverker.database.FornavnDatabase;
@@ -10,6 +13,8 @@ import no.handverker.domene.StringWrapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Path("handverker")
@@ -28,13 +33,9 @@ public class HandverkerController {
     @GET
     @Produces("application/json")
     public Handverker handverker() {
-        Handverker handverker = new Handverker();
-        handverker.setEtternavn(etternavnDatabase.hentAlle());
-        handverker.setYrke(yrkeDatabase.hentAlle());
-        handverker.setSteder(stedDatabase.hentAlle());
-        handverker.setFornavn(fornavnDatabase.hentAlle());
 
-        return handverker;
+
+        return hentHandverkereFraCacheEllerDb();
     }
 
     @POST
@@ -82,5 +83,29 @@ public class HandverkerController {
         }
         return Response.status(201).build();
 
+    }
+
+    public Handverker hentHandverkereFraCacheEllerDb(){
+        MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+        syncCache.setErrorHandler(ErrorHandlers.getConsistentLogAndContinue(Level.INFO));
+        String key = "handverkere";
+
+        Handverker handverker = (Handverker) syncCache.get(key); // read from cache
+        if (handverker == null) {
+            LOGGER.info("Fant ikke i cache");
+
+            handverker = new Handverker();
+            handverker.setEtternavn(etternavnDatabase.hentAlle());
+            handverker.setYrke(yrkeDatabase.hentAlle());
+            handverker.setSteder(stedDatabase.hentAlle());
+            handverker.setFornavn(fornavnDatabase.hentAlle());
+
+            syncCache.put(key, handverker); // populate cache
+        } else{
+            LOGGER.info("Hentet fra cache");
+        }
+
+
+        return handverker;
     }
 }

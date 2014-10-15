@@ -19,6 +19,7 @@ function initialiserLeggTil() {
                 success: function () {
                     $('input#leggTilInput').val('');
                     $.unblockUI();
+
                 },
                 error: function () {
 

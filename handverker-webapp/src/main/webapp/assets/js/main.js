@@ -26,4 +26,6 @@ $(document).ready(function () {
     $wrapper.trigger('create');
     initialiserLeggTil();
     initialiserPriss();
+    initialiserHovedside();
+
 });
