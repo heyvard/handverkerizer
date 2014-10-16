@@ -1,21 +1,25 @@
-<div data-role="page" id="hjem" class="ui-page-active"  data-theme="b">
+<div data-role="page" id="hjem" class="ui-page-active" data-theme="b">
     {{> header}}
 
 
     <div data-role="main" class="ui-content">
-        <button id="oppdaterHandverkerKnapp" class="ui-btn ui-icon-refresh ui-btn-icon-bottom">Dagens håndverker</button>
+        <button id="oppdaterHandverkerKnapp" class="ui-btn ui-icon-refresh ui-btn-icon-bottom">Dagens håndverker
+        </button>
 
-        <div>
-            <h1 style="text-align: center;">
+        <div style="text-align: center;">
+            <h3>
                 <span id="fornavn"></span>
                 <span id="etternavn"></span>
-                ( <span id="alder"></span> år )
-                <br />
+            </h3>
+            <h4>
+                <span id="alder"></span> år
+                <br/>
                 <span id="yrke"></span>
-                <br />
+                <br/>
                 <span id="sted"></span>
+            </h4>
 
-            </h1>
+
         </div>
     </div>
     {{> footer}}

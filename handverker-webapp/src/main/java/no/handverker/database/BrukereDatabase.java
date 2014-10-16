@@ -48,7 +48,7 @@ public class BrukereDatabase {
         LOGGER.info("Legger til bruker " + bruker.getEpost());
 
         Entity greeting = new Entity(BRUKER_ENTITY, bruker.getEpost());
-        greeting.setProperty(EPOST_PROPERTY, bruker.getBrukerID());
+        greeting.setProperty(EPOST_PROPERTY, bruker.getEpost());
         greeting.setProperty(BRUKERID_PROPERTY, bruker.getBrukerID());
         greeting.setProperty(TILGANG_PROPERTY, bruker.isHarTilgang());
         datastore.put(greeting);
